@@ -70,7 +70,7 @@ def branch_transactions():
         print("Please enter valid State code")
 
 ## CUSTOMER DETAILS
-# 4) Used to check the existing account details of a customer.
+# 4) Used to check the existing account details of a customer(customer account--> creditcards).
 def cust_acct_details():
     try:
         ssn=int(input("Enter customer SSN: "))
