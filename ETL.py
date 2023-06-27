@@ -2,16 +2,17 @@ from pyspark.sql import SparkSession
 from pyspark.sql.types import *
 from pyspark.sql.functions import *
 import pandas as pd
-from mysql.connector import Error
-#Write to MySQL Table
+import config
+#Write spark df MySQL Table
 def write_to_db(df,table_name):
     try:
+        print(f'{df} \n Writing to creditcard_capstone database...')
         df.write.format("jdbc")\
         .option("driver","com.mysql.cj.jdbc.Driver")\
         .option("url", "jdbc:mysql://localhost:3306/creditcard_capstone")\
         .option("dbtable", table_name)\
-        .option("user", "root")\
-        .option("password", "admin")\
+        .option("user", config.db_user)\
+        .option("password", config.db_pwd)\
         .save()
         print(f'{table_name} table is created')
     except Exception as e:
@@ -19,6 +20,7 @@ def write_to_db(df,table_name):
 
 #checking for nulls
 def check_nulls(df):
+    print('Checking for Nulls:')
     navalues=df.select([
     (
         count(when((isnan(c) | col(c).isNull()), c)) if t not in ("timestamp", "date")
@@ -27,10 +29,13 @@ def check_nulls(df):
     for c, t in df.dtypes if c in df.columns])
     return navalues
 def cust_transformation(df_cust):
-    # #checking for duplicates
-    # df_cust.groupBy(df_cust.columns).count().where('count>1').show()
+    # checking for duplicates
+    print('checking for duplicates: ')
+    df_cust.groupBy(df_cust.columns).count().where('count>1').show()
     # df_cust.distinct().count())==(df_cust.count():
     check_nulls(df_cust).show()
+    print('Performing Transformations...')
+    print()
     df_cust=df_cust.withColumn('SSN',col('SSN').cast('int'))
     df_cust=df_cust.withColumn('CUST_ZIP',col('CUST_ZIP').cast('int'))
     df_cust=df_cust.withColumn('LAST_UPDATED',to_timestamp('LAST_UPDATED'))
@@ -44,13 +49,17 @@ def cust_transformation(df_cust):
      'CUST_COUNTRY','CUST_ZIP','CUST_PHONE','CUST_EMAIL','LAST_UPDATED']
     df_cust=df_cust.select(*col_order)
     write_to_db(df_cust,'CDW_SAPP_CUSTOMER')
+    
 
 def branch_transformation(df_branch):
-    # print('Checking for Null values in branch')
-    # check_nulls(df_branch).show()
+    print('Checking for Null values in branch')
+    check_nulls(df_branch).show()
     # #checking for duplicates
-    # df_branch.groupBy(df_branch.columns).count().where('count>1').show()
+    print('checking for duplicates')
+    df_branch.groupBy(df_branch.columns).count().where('count>1').show()
     # (df_branch.distinct().count())==(df_branch.count())
+    print('Performing Transformations...')
+    print()
     cols=['BRANCH_CODE','BRANCH_ZIP']
     for col_name in cols:
         df_branch=df_branch.withColumn(col_name,col(col_name).cast('int'))
@@ -62,10 +71,13 @@ def branch_transformation(df_branch):
     write_to_db(df_branch,'CDW_SAPP_BRANCH')
 
 def credit_transformation(df_credit):
-    # check_nulls(df_credit).show()
-    # #checking for duplicates
+    print('Checking for Null values in df_credit')
+    check_nulls(df_credit).show()
+    print('checking for duplicates')
     # print(df_credit.distinct().count()==df_credit.count())
-    # df_credit.groupBy(df_credit.columns).count().where('count>1').show()
+    df_credit.groupBy(df_credit.columns).count().where('count>1').show()
+    print('Performing Transformations...')
+    print()
     # Convert day, month, and year to timeid
     df_credit = df_credit.withColumn("TIMEID",concat(df_credit["year"].cast("string"),
             lpad(df_credit["month"].cast("string"), 2, "0"),lpad(df_credit["day"].cast("string"), 2, "0")))
@@ -80,7 +92,9 @@ def credit_transformation(df_credit):
     write_to_db(df_credit,'CDW_SAPP_CREDIT_CARD')
 
 def date_dim(df_date):
+    print('Creating Date dimension table...')
     df_date=df_date.withColumn('calender_date',col('calender_date').cast('date'))
+    df_date.show(3)
     write_to_db(df_date,'Date_Dim')
 
 def loan_etl():
@@ -110,23 +124,25 @@ def data_etl():
     spark=SparkSession.builder.master('local[1]').appName('Credit Card Management System').getOrCreate()
     print('Working on cdw_sapp_custmer.json...')
     df_cust=spark.read.json('cdw_sapp_custmer.json')
+
+    df_cust.show(3)
     cust_transformation(df_cust)
-    print('cdw_sapp_custmer.json loaded to database after transformation')
+    #print('cdw_sapp_custmer.json loaded to database after transformation')
     print()
     print('Working on cdw_sapp_branch.json...')
     df_branch=spark.read.json('cdw_sapp_branch.json')
     branch_transformation(df_branch)
-    print('cdw_sapp_branch.json loaded to database after transformation')
+    #print('cdw_sapp_branch.json loaded to database after transformation')
     print()
     print('Working on cdw_sapp_credit.json...')
     df_credit=spark.read.json('cdw_sapp_credit.json')
     credit_transformation(df_credit)
-    print('cdw_sapp_credit.json loaded to database after transformation')
+    #print('cdw_sapp_credit.json loaded to database after transformation')
     df_date=spark.read.format("csv")\
         .option('header','true').option('inferSchema','true')\
         .load('Date_Dim.csv')
     date_dim(df_date)
-    print('ETL process done')
+   
     df_loan=loan_etl()
     schema=StructType([
     StructField('Application_ID',StringType()),
@@ -141,6 +157,6 @@ def data_etl():
     StructField('Application_Status',StringType())])
     spark_df=spark.createDataFrame(df_loan,schema=schema)
     write_to_db(spark_df,'CDW_SAPP_loan_application')
-    print('loan etl done')
-
+    #print('loan etl done')
+    print('ETL process done')
 data_etl()
