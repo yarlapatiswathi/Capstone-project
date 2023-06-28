@@ -2,21 +2,23 @@
 ## Overview
 
 This capstone project demonstrates an ETL process for a Loan Application dataset and a Credit Card dataset using technologies such as Python (Pandas, advanced modules, e.g., Matplotlib), SQL, Apache Spark (Spark Core, Spark SQL), and Python Visualization (seaborn and Plotly) and Analytics libraries.
-
-- Inorder to automate the process of ETL pileline , I used the AIRFLOW 
+- Create a virtual enviroment and install necessary libraries. 
+- Inorder to automate the process of ETL pipeline,I used Airflow. For Airflow installation, docker-compose.yaml is used.
+- curl -LfO 'https://airflow.apache.org/docs/apache-airflow/2.6.2/docker-compose.yaml'
+- It needs folders for dags, logs, plugins and config. (mkdir -p ./dags ./logs ./plugins ./config)
+- After installation, Airflow can be started using 'docker compose up airflow-init' and Airflow webserver is available at http://localhost:8080.
 ![Alt text](image-1.png)
 
 ## Credit Card Dataset Overview
 
 The Credit Card System database is an independent system developed for managing activities such as registering new customers and approving or canceling requests, etc., using the architecture.
 A credit card is issued to users to enact the payment system. It allows the cardholder to access financial services in exchange for the holder's promise to pay for them later. Below are three files that contain the customer’s transaction information and inventories in the credit card information.
-a) CDW_SAPP_CUSTOMER.JSON: This file has the existing customer details.
-b) CDW_SAPP_CREDITCARD.JSON: This file contains all credit card transaction information.
-c) CDW_SAPP_BRANCH.JSON: Each branch’s information and details are recorded in this file.
+- CDW_SAPP_CUSTOMER.JSON: This file has the existing customer details.
+- CDW_SAPP_CREDITCARD.JSON: This file contains all credit card transaction information.
+- CDW_SAPP_BRANCH.JSON: Each branch’s information and details are recorded in this file.
 
 ## ETL process
 
-- Create a virtual enviroment and install necessary libraries. 
 - Downloaded the input json files in my local directory and reading and performing transformations(includes formatting the data and transforming them into specified data types as in mapping document) using pyspark. Eventhough the files are small I used Pyspark to showcase my knowledge on it.
 - In this project , I used MYSQL as my backend and created 'creditcard_capstone' as my database and 'CDW_SAPP_BRANCH','CDW_SAPP_CREDIT_CARD','CDW_SAPP_CUSTOMER' tables for the data to be loaded into them. 
 - Also created a Date Dimension table to perform analysis based on days, months and years.
@@ -30,6 +32,10 @@ Finally created a primary key and Foreign key to perform query optimization and 
     - ALTER TABLE `cdw_sapp_credit_card` ADD FOREIGN KEY (BRANCH_CODE) REFERENCES cdw_sapp_branch(BRANCH_CODE);
     - ALTER TABLE `cdw_sapp_credit_card` ADD FOREIGN KEY (TIMEID) REFERENCES Date_Dim(Date_Id);
 
+- After Airflow installation is done, I need to integrate the Airflow with MYSQL which is in my localsystem. Since my code is all written in Pyspark, docker needs some installations and files. 
+- I used Dockerfile for installations required for my code and built it using 'docker build . --tag extending_airflow:latest' and renaming the docker-compose.yaml image: ${AIRFLOW_IMAGE_NAME:-extending_airflow:latest}.
+- In Airflow UI, I created a connection to my local MYSQL specifying 'host.docker.internal' as my host. 
+- To Initiate the Airflow webserver 'docker compose up airflow-init' and finally to start the webserver 'docker compose up'.
 In order to analyse the data, the following details are observed by querying database.
 
 ### Transaction Details Module
