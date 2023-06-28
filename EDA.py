@@ -1,5 +1,4 @@
 import pyspark
-#from gooey import Gooey
 from pyspark.sql import SparkSession
 from pyspark.sql.types import *
 from pyspark.sql.functions import *
@@ -57,17 +56,18 @@ def customer_transactions():
 def transaction_value():
     try:
         type=input('Enter the type of transaction: ').title()
-        query=f"select count(*) as No_of_Transactions,round(sum(transaction_value),2) as Total_Value from df_credit where transaction_type='{type}'"
+        query=f"select max(transaction_type) as Transaction_Type,count(*) as No_of_Transactions,round(sum(transaction_value),2) as Total_Value from df_credit where transaction_type='{type}'"
         df_value=spark.sql(query)
         df_value.show()
     except Exception as e:
-        print('Please enter a valid Transaction Type')
+        print(e)
+        #print('Please enter a valid Transaction Type')
 
 #3)    Used to display the total number and total values of transactions for branches in a given state.
 def branch_transactions():
     try:
         state=input("Enter a State code to find its transaction details: ").upper()
-        query=f"select df_credit.branch_code, count(*) as No_of_Transactions,round(sum(transaction_value),2) as Total_Value,max(branch_state) as Branch_State from df_credit join df_branch \
+        query=f"select df_credit.branch_code, count(*) as No_of_Transactions,round(sum(transaction_value),2) as Total_Value,max(branch_city) as Branch_State from df_credit join df_branch \
         on df_credit.branch_code= df_branch.branch_code where branch_state='{state}' group by df_credit.branch_code"
         spark.sql(query).show()
     except Exception as e:
