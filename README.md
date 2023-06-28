@@ -3,6 +3,7 @@
 
 This capstone project demonstrates an ETL process for a Loan Application dataset and a Credit Card dataset using technologies such as Python (Pandas, advanced modules, e.g., Matplotlib), SQL, Apache Spark (Spark Core, Spark SQL), and Python Visualization (seaborn and Plotly) and Analytics libraries.
 
+- Inorder to automate the process of ETL pileline , I used the AIRFLOW 
 ![Alt text](image-1.png)
 
 ## Credit Card Dataset Overview
@@ -48,5 +49,11 @@ The code for above steps can be seen in EDA.py
 
 ## Visualizations:
 
-- Find and plot which transaction type has a high rate of transactions.
+- plot the transaction type has a high rate of transactions.
+- plot state that has a high number of customers.
+- plot the sum of all transactions for the top 10 customers, and which customer has the highest transaction amount.
+- plot the percentage of applications approved for self-employed applicants.
+- plot the percentage of rejection for married male applicants.
+- plot the top three months with the largest transaction data.
+- plot which branch processed the highest total dollar value of healthcare transaction.
 
