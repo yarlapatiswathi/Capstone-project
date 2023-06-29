@@ -2,10 +2,29 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4088cf1-7311-4801-a0af-c3298ef5b460" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/3-1.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3-3.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3-3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/5-1.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/5-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/5-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/5-3.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/5-3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/5-4.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/5-4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ETL_pic.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ETL_pic.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Vizualisation.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Vizualisation.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/image-1.png" beforeDir="false" afterPath="$PROJECT_DIR$/image-1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dags/etl_dag.py" beforeDir="false" afterPath="$PROJECT_DIR$/dags/etl_dag.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotly_images/3-1.html" beforeDir="false" afterPath="$PROJECT_DIR$/plotly_images/3-1.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotly_images/3-3.html" beforeDir="false" afterPath="$PROJECT_DIR$/plotly_images/3-3.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotly_images/5-1.html" beforeDir="false" afterPath="$PROJECT_DIR$/plotly_images/5-1.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotly_images/5-3.html" beforeDir="false" afterPath="$PROJECT_DIR$/plotly_images/5-3.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotly_images/5-4.html" beforeDir="false" afterPath="$PROJECT_DIR$/plotly_images/5-4.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_values.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test_values.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/viz.ipynb" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

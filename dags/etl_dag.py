@@ -39,7 +39,7 @@ def write_to_db(df,table_name):
         .save()
         print(f'{table_name} table is created')
     except Exception as e:
-        print('Error while connecting to MySQL',e)
+        print(f'{table_name} table already exists')
 
 
 #checking for nulls
