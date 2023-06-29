@@ -56,10 +56,15 @@ The code for above steps can be seen in EDA.py
 ## Visualizations:
 
 - plot the transaction type has a high rate of transactions.
+    ![Alt text](3-1.png)
 - plot state that has a high number of customers.
 - plot the sum of all transactions for the top 10 customers, and which customer has the highest transaction amount.
+    ![Alt text](3-3.png)
 - plot the percentage of applications approved for self-employed applicants.
+    ![Alt text](5-1.png)
 - plot the percentage of rejection for married male applicants.
 - plot the top three months with the largest transaction data.
+    ![Alt text](5-3.png)
 - plot which branch processed the highest total dollar value of healthcare transaction.
+    ![Alt text](5-4.png)
 
