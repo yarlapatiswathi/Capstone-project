@@ -1,12 +1,9 @@
 # Credit Card System
 ## Overview
 
-This capstone project demonstrates an ETL process for a Loan Application dataset and a Credit Card dataset using technologies such as Python (Pandas, advanced modules, e.g., Matplotlib), SQL, Apache Spark (Spark Core, Spark SQL), and Python Visualization (seaborn and Plotly) and Analytics libraries.
-- Create a virtual enviroment and install necessary libraries. 
-- Inorder to automate the process of ETL pipeline,I used Airflow. For Airflow installation, docker-compose.yaml is used.
-- curl -LfO 'https://airflow.apache.org/docs/apache-airflow/2.6.2/docker-compose.yaml'
-- It needs folders for dags, logs, plugins and config. (mkdir -p ./dags ./logs ./plugins ./config)
-- After installation, Airflow can be started using 'docker compose up airflow-init' and Airflow webserver is available at http://localhost:8080.
+This capstone project demonstrates an ETL process for a Loan Application dataset and a Credit Card dataset using technologies such as Python advanced modules such as Pandas and Matplotlib, SQL, Apache Spark (Spark Core, Spark SQL), and Visualization libraries such as seaborn and Plotly and Orchestration of ETL pipeline using Airflow and Docker.
+
+ 
 ![Alt text](image-1.png)
 
 ## Credit Card Dataset Overview
@@ -17,8 +14,13 @@ A credit card is issued to users to enact the payment system. It allows the card
 - CDW_SAPP_CREDITCARD.JSON: This file contains all credit card transaction information.
 - CDW_SAPP_BRANCH.JSON: Each branch’s information and details are recorded in this file.
 
-## ETL process
+## ETL process:
 
+- Create a virtual enviroment and install necessary libraries. 
+- Inorder to automate the process of ETL pipeline,I used Airflow. For Airflow installation, docker-compose.yaml is used.
+- curl -LfO 'https://airflow.apache.org/docs/apache-airflow/2.6.2/docker-compose.yaml'
+- It needs folders for dags, logs, plugins and config. (mkdir -p ./dags ./logs ./plugins ./config)
+- After installation, Airflow can be started using 'docker compose up airflow-init' and Airflow webserver is available at http://localhost:8080.
 - Downloaded the input json files in my local directory and reading and performing transformations(includes formatting the data and transforming them into specified data types as in mapping document) using pyspark. Eventhough the files are small I used Pyspark to showcase my knowledge on it.
 - In this project , I used MYSQL as my backend and created 'creditcard_capstone' as my database and 'CDW_SAPP_BRANCH','CDW_SAPP_CREDIT_CARD','CDW_SAPP_CUSTOMER' tables for the data to be loaded into them. 
 - Also created a Date Dimension table to perform analysis based on days, months and years.
@@ -31,6 +33,7 @@ Finally created a primary key and Foreign key to perform query optimization and 
     - ALTER TABLE `cdw_sapp_credit_card` ADD FOREIGN KEY (CUST_SSN) REFERENCES cdw_sapp_customer(SSN);
     - ALTER TABLE `cdw_sapp_credit_card` ADD FOREIGN KEY (BRANCH_CODE) REFERENCES cdw_sapp_branch(BRANCH_CODE);
     - ALTER TABLE `cdw_sapp_credit_card` ADD FOREIGN KEY (TIMEID) REFERENCES Date_Dim(Date_Id);
+
 
 - After Airflow installation is done, I need to integrate the Airflow with MYSQL which is in my localsystem. Since my code is all written in Pyspark, docker needs some installations and files. 
 - I used Dockerfile for installations required for my code and built it using 'docker build . --tag extending_airflow:latest' and renaming the docker-compose.yaml image: ${AIRFLOW_IMAGE_NAME:-extending_airflow:latest}.
